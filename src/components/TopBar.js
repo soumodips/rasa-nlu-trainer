@@ -39,9 +39,17 @@ const styles = {
     marginRight: 8,
   },
   head:{
-    weight: 'bold'
-  }
+    fontWeight:'bold', 
+  } 
 }
+const customPanelStyle = {
+  background: '#f7f7f7',
+  borderRadius: 4,
+  marginBottom: 24,
+  border: 0,
+  overflow: 'scroll',
+};
+
 
 class TopBar extends Component {
   state = {
@@ -53,6 +61,11 @@ class TopBar extends Component {
     });
   }
   handleCancel = (e) => {
+    this.setState({
+      visible: false,
+    });
+  }
+  handleOk = (e) => {
     this.setState({
       visible: false,
     });
@@ -123,6 +136,7 @@ class TopBar extends Component {
             title="Add/Remove synonyms"
             bodyStyle={{height: '80%'}}
             visible={this.state.visible}
+            onOk={this.handleOk}
             onCancel={this.handleCancel}
             width='90%'
             cancelText="Close"
@@ -132,9 +146,9 @@ class TopBar extends Component {
                 return (
                   <div key={i}>
                     <mountNode>
-                      <Collapse accordion>
-                        <Panel style={styles.head} header={syn.value} key="1">
-                          <EditableTagGroup synName={syn.value} synonyms={syn.synonyms} />
+                      <Collapse accordian>
+                        <Panel header={syn.value} key="1">
+                          <EditableTagGroup synName={syn.value} synonyms={syn.synonyms} style={customPanelStyle} />
                         </Panel>
                       </Collapse>
                     </mountNode>
