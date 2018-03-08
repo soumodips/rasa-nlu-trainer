@@ -14,9 +14,10 @@ const mapState = (state) =>{
   synonyms: state.synonyms
 })
 }
+
 class App extends Component {
   render() {
-    const { examples, synonyms } = this.props
+    const { examples, synonyms, add_synonym } = this.props
     if (!examples) {
       return (
         <Spin style={{ width: '100%', height: '100%' }}>
@@ -54,8 +55,9 @@ class App extends Component {
           if (!entityValues[item.entity]) {
             entityValues[item.entity] = [item.value]
           } else {
-            if (entityValues[item.entity].indexOf(item.value) === -1)
+            if (entityValues[item.entity].indexOf(item.value) === -1){
               entityValues[item.entity].push(item.value)
+            }
           }
         })
     })

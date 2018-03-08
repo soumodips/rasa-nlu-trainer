@@ -14,8 +14,16 @@ export const persist_synonym = (tags, synName) => {
     type: PERSIST_SYNONYM,
     payload: {
       tags: tags,
-      synName: synName
+      synName: synName,
     }
+  }
+}
+
+export const ADD_SYNONYM = "ADD_SYNONYM"
+export const add_synonym = (newSyn) => {
+  return {
+    type: ADD_SYNONYM,
+    payload : newSyn ,
   }
 }
 
@@ -54,23 +62,6 @@ export const loadData = () => async (dispatch: Function): Promise<void> => {
   })
   const json = await response.json()
   dispatch(fetchData(json.path, json.data))
-}
-
-
-export const FETCH_DATA_SYNONYMS = 'FETCH_DATA_SYNONYMS'
-export const fetchData_synonyms = (
-  path: string,
-  data: Object,
-): Object => ({
-  type: FETCH_DATA_SYNONYMS,
-  payload: { path, data }
-})
-export const loadData_synonyms = () => async (dispatch: Function): Promise<void> => {
-  const response: Object = await fetch(`${ROOT_PATH}data`, {
-    method: 'POST',
-  })
-  const json = await response.json()
-  dispatch(fetchData_synonyms(json.path, json.data))
 }
 
 export const SAVING_DONE = 'SAVING_DONE'

@@ -15,7 +15,8 @@ import {
   CLOSE_ADD_MODAL,
   SAVE_AND_CLOSE_ADD_MODAL,
   RESET,
-  PERSIST_SYNONYM
+  PERSIST_SYNONYM,
+  ADD_SYNONYM,
 } from './actions'
 
 let exampleIDCounter = 0
@@ -167,9 +168,28 @@ export default function reducer (
           src.synonyms = payload.tags
       })
       state.originalSource = originalSource
-    }
       return state
-    default:
+    }
+    case ADD_SYNONYM: {
+      let originalSource= state.originalSource
+      let synIsPresent = false
+      originalSource.rasa_nlu_data.entity_synonyms.map((item) => {
+        if(item.value === payload) synIsPresent=true
+      })
+      if(!synIsPresent){
+        originalSource.rasa_nlu_data.entity_synonyms.push({
+          value: payload,
+          synonyms: [payload]
+        })
+        //console.log(originalSource.rasa_nlu_data.entity_synonyms);
+      }
+      state.originalSource = originalSource
+      return {
+        ...state,
+        synonyms: prepareSynonyms(originalSource.rasa_nlu_data.entity_synonyms),
+      }
+    }
+      default:
       return state
   }
 }

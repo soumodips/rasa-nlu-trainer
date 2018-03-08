@@ -16,27 +16,25 @@ const mapState = (state, props) => {
     selection,
   }
 }
-
 const mapActions = dispatch => ({
   edit: (idExample, update) => {
     dispatch(actions.edit(idExample, update))
-  }
+  },
 })
 
 class EntityTable extends Component {
-   state ={
-     'entityValuesDataSource': []
-   }
+  state = {
+    'entityValuesDataSource': []
+  }
   handleChange(entityIndex, key, value) {
     const { example, edit } = this.props
-
     edit(example.id, immutable.set(example, `entities.${entityIndex}.${key}`, value))
   }
-   updateEntityValues(value, entityValues){
-     this.setState({
-       entityValuesDataSource : entityValues[value]
-     })
-   }
+  updateEntityValues(value, entityValues) {
+    this.setState({
+      entityValuesDataSource: entityValues[value]
+    })
+  }
   renderAddButton() {
     const { edit, example, selection } = this.props
     const selectionText = selection
@@ -64,11 +62,11 @@ class EntityTable extends Component {
       : (
         <Button disabled={true}>
           'select some part of the text to create a new entity'
-        </Button> 
+        </Button>
       )
   }
   render() {
-    const { example, edit, entityNames, entityValues } = this.props
+    const { example, edit, entityNames, entityValues, entityValCallback } = this.props
     const entities = example.entities || []
     const columns = [
       {
@@ -81,13 +79,13 @@ class EntityTable extends Component {
             dataSource={entityNames}
             value={entity.entity}
             onChange={(value) => {
-                this.handleChange(
+              this.handleChange(
                 entity.index,
                 'entity',
                 value,
               )
               this.updateEntityValues(value, entityValues)
-              }}
+            }}
             placeholder='entity'
           />
         ),
@@ -99,13 +97,14 @@ class EntityTable extends Component {
           <AutoComplete
             dataSource={this.state.entityValuesDataSource}
             value={entity.value}
+            onBlur={value => entityValCallback(value.toUpperCase())}
             onChange={(value) => {
               this.handleChange(
-              entity.index,
-              'value',
-              value,
+                entity.index,
+                'value',
+                value,
               )
-          }}
+            }}
             placeholder='value'
           />
         ),

@@ -124,7 +124,6 @@ class TextEditor extends Component {
 
   renderEntityHighlight(text: string, entity: Object, key: number) {
     const { entityNames } = this.props
-    //const { entityValues } = this.props
     const start = text.substr(0, entity.start)
     const value = text.substr(entity.start, entity.end - entity.start)
     const end = text.substr(entity.end)

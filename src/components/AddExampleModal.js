@@ -19,9 +19,16 @@ const mapActions = dispatch => ({
   saveAndClose: () => {
     dispatch(actions.saveAndCloseAddModal())
   },
+  add_synonym: (newSyn) => {
+    dispatch(actions.add_synonym(newSyn))
+  },
 })
 
 class ExampleTable extends Component {
+  newSyn=null;
+  entityValCallback = (newSyn) => {
+     this.newSyn = newSyn
+ }
   render() {
     const {
       example,
@@ -30,13 +37,17 @@ class ExampleTable extends Component {
       saveAndClose,
       entityNames,
       entityValues,
+      add_synonym
     } = this.props
 
     return (
       <Modal
         title='Add example'
         visible={Boolean(example)}
-        onOk={() => saveAndClose()}
+        onOk={() => {
+          add_synonym(this.newSyn)
+          saveAndClose()
+        }}
         onCancel={() => close()}
         okText='add'
       >
@@ -58,6 +69,7 @@ class ExampleTable extends Component {
                 example={example}
                 entityNames={entityNames}
                 entityValues={entityValues}
+                entityValCallback={this.entityValCallback}
               />
             </div>
           )
@@ -66,6 +78,7 @@ class ExampleTable extends Component {
       </Modal>
     )
   }
+  
 }
 
 export default connect(mapState, mapActions)(ExampleTable)
