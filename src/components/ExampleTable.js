@@ -107,7 +107,7 @@ class ExampleTable extends Component {
     ]
 
     // HACK to make the table exactly as high as the window with fixed header
-    const scrollHeight = window.innerHeight - (41+32+32+22)
+    const scrollHeight = window.innerHeight - (52+32+32+32)
     
     return (
       <Table
