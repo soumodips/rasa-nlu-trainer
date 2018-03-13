@@ -26,9 +26,8 @@ const mapActions = dispatch => ({
 
 class ExampleTable extends Component {
   newSyn=null;
-  entityValCallback = (newSyn) => {
-     this.newSyn = newSyn
- }
+  entityValCallback = newSyn => this.newSyn = newSyn
+ 
   render() {
     const {
       example,
