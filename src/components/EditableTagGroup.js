@@ -1,10 +1,13 @@
 import React from "react";
-import { Tag, Input, Tooltip, Icon } from "antd";
+import { Tag, Input, Tooltip, Icon, Modal} from "antd";
 import { connect } from 'react-redux'
 import * as actions from '../state/actions'
 import { persist_synonym } from '../state/actions';
 import { bindActionCreators } from "redux";
 
+
+const ERROR_TITLE = 'Oops! Error adding synonym'
+const ERROR_CONTENT = 'Looks like the synonym you added is already present for this or another value.'
 const mapActions = dispatch => ({
   save: () => {
     dispatch(actions.save_synonym())
@@ -18,6 +21,7 @@ class EditableTagGroup extends React.Component {
   
   state = {
     synName: this.props.synName,
+    allSynonyms: this.props.allSynonyms,
     tags: this.props.synonyms,
     inputVisible: false,
     inputValue: ""
@@ -37,14 +41,30 @@ class EditableTagGroup extends React.Component {
     this.setState({ inputValue: e.target.value });
   };
 
+  isPresentForOtherVals = (val) => {
+    let isPresent = false
+    const allSynonyms = this.state.allSynonyms
+    allSynonyms.map((item) => {
+      if(!(isPresent) === true) isPresent = item.synonyms.find(k => k===val)
+    })
+    if(isPresent === undefined) isPresent = false
+    return isPresent
+  };
+
   handleInputConfirm = () => {
     const state = this.state;
     const inputValue = state.inputValue.toUpperCase();
     let tags = state.tags;
     let synName = state.synName;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
+    if (inputValue && tags.indexOf(inputValue) === -1 && !this.isPresentForOtherVals(inputValue))
       tags = [...tags, inputValue];
-    }
+    else{
+      Modal.error({
+          title: ERROR_TITLE,
+          content: ERROR_CONTENT
+        })
+      }
+    
     this.setState({
       tags,
       inputVisible: false,
@@ -86,7 +106,6 @@ class EditableTagGroup extends React.Component {
             style={{ width: 78 }}
             value={inputValue}
             onChange={this.handleInputChange}
-            onBlur={this.handleInputConfirm}
             onPressEnter={this.handleInputConfirm}
           />
         )}

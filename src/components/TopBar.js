@@ -148,7 +148,7 @@ class TopBar extends Component {
                     <mountNode>
                       <Collapse accordian>
                         <Panel header={syn.value} key="1">
-                          <EditableTagGroup synName={syn.value} synonyms={syn.synonyms} style={customPanelStyle} />
+                          <EditableTagGroup synName={syn.value} synonyms={syn.synonyms} allSynonyms={synonyms} style={customPanelStyle} />
                         </Panel>
                       </Collapse>
                     </mountNode>

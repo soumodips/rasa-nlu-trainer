@@ -17,7 +17,7 @@ const mapState = (state) =>{
 
 class App extends Component {
   render() {
-    const { examples, synonyms, add_synonym } = this.props
+    const { examples, synonyms } = this.props
     if (!examples) {
       return (
         <Spin style={{ width: '100%', height: '100%' }}>

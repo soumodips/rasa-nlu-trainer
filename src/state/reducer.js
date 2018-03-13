@@ -165,7 +165,7 @@ export default function reducer (
       let originalSource= state.originalSource
       originalSource.rasa_nlu_data.entity_synonyms.map((src) => {
         if(src.value === payload.synName)
-          src.synonyms = payload.tags
+            src.synonyms = payload.tags
       })
       state.originalSource = originalSource
       return state
