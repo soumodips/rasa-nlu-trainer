@@ -97,7 +97,11 @@ class EntityTable extends Component {
           <AutoComplete
             dataSource={this.state.entityValuesDataSource}
             value={entity.value}
-            onBlur={value => entityValCallback(value.toUpperCase())}
+            onBlur={value => 
+              {
+                 if(entityValCallback instanceof Function )
+                 return entityValCallback(value.toUpperCase())
+              }}
             onChange={(value) => {
               this.handleChange(
                 entity.index,
